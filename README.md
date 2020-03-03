@@ -228,3 +228,5 @@ If you like this work, please consider donating via [Liberapay](https://liberapa
   [pygments]: http://pygments.org/
 
   [llncs2e.zip]: ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip
+
+# Praktikumsbericht
