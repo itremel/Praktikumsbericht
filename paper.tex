@@ -443,7 +443,46 @@ $https://www.hackingtutorials.org/metasploit-tutorials/metasploitable-3-port-for
 - metasploit, mysql Datenbankenaufbau nachvollziehen, zugriff über portforwarding, verschiedene Dateiformate wiederherstellen
 - wordpress zugriff auf wp-content/uploads
 
+\subsection{3. Woche}
+\subsubsection{16.03}
+- Macsec Verbindung zwischen zwei Switches 
+ $https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-6/configuration_guide/sec/b_166_sec_9300_cg/macsec_encryption.html$
+-mka Policy
+\begin{lstlisting}[language=bash]
+Switch(config)# mka policy mka_policy 
+Switch(config-mka-policy)# macsec-cipher-suite gcm-aes-256 
+Switch(config-mka-policy)# confidentiality-offset 30 
+Switch(config-mka-policy)# end 
+- keys
+Switch(config)# Key chain keychain1 macsec 
+Switch(config-key-chain)# key 1000 
+Switch(config-keychain-key)# cryptographic-algorithm gcm-aes-256
+Switch(config-keychain-key)# key-string 12345678901234567890123456789012 
+Switch(config-keychain-key)# lifetime local 12:12:00 July 28 2016 12:19:00 July 28 2016 
+Switch(config-keychain-key)# end 
+-interface 
+Switch(config)# interface GigabitEthernet 0/0/0 
+Switch(config-if)# mka policy mka_policy 
+Switch(config-if)# mka pre-shared-key key-chain keychain1
+Switch(config-if)# end 
 
+\end{lstlisting}
+-Trustsec
+\begin{lstlisting}[language=bash]
+Switch# configure terminal
+Switch(config)# interface tengigabitethernet 1/1/2
+Switch(config-if)# cts manual
+Switch(config-if-cts-manual)# sap pmk 1234abcdef mode-list gcm-encrypt null no-encap
+Switch(config-if-cts-manual)# no propagate sgt
+Switch(config-if-cts-manual)# exit
+Switch(config-if)# end
+\end{lstlisting}
+-1gbit mit iperf 777mbits, 10gi kann mit laptops nicht getestet werden
+- laptops ips im netzwerk zuweisen 192.168.111.1, 192.168.111.2 /24
+\begin{lstlisting}[language=bash]
+iperf -c 192.168.111.1
+iperf -s 
+\end{lstlisting}
 \section{Introduction}\label{sec:intro}
 \lipsum[1-3]\todo{Refine me}
 
