@@ -4,6 +4,9 @@
 # downloaded from springer - must not be distributed anywhere else
 llncs2e.zip
 
+#LCNS directory
+/LNCS-master/
+
 # contents of llncs2e.zip
 aliascnt.sty
 history.txt
