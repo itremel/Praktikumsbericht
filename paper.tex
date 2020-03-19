@@ -533,7 +533,19 @@ dann abmelden/anmelden
 - ist so ein Network Device Admission Control (NDAC) für andere geräte schon eingerichtet?
 -\url{https://www.cisco.com/c/en/us/support/switches/catalyst-9300-24x-a-switch/model.html} --> configurations guides --> trustsec switch configuration guide
 
-
+\subsubsection{19.03}
+- Quality of Service (QoS)z.B Voice und Data
+- "The 10-Gigabit interfaces do not support auto-QoS for VoIP with Cisco IP Phones or with devices running the Cisco SoftPhone feature." veraltet' 12-2-55 vs 16-12 im LInk
+\url{https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst3750/software/release/12-2_55_se/configuration/guide/scg3750/swqos.html#91698}
+-auto qos geht anscheinend doch
+\url{https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-12/configuration_guide/qos/b_1612_qos_9300_cg/configuring_auto_qos.html#reference_kcp_nz5_41b}
+\begin{lstlisting}[language=bash]
+-Device(config)# interface HundredGigE1/0/2
+Device(config-if)# auto qos trust cos
+Device(config-if)# end
+Device# show policy-map interface HundredGigE1/0/2
+\end{lstlisting}
+- mit auto qos global compact werden nur die configuration  messages versteckt (hidden)
 
 
 \section{Introduction}\label{sec:intro}
