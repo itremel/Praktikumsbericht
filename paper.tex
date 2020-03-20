@@ -546,8 +546,23 @@ Device(config-if)# end
 Device# show policy-map interface HundredGigE1/0/2
 \end{lstlisting}
 - mit auto qos global compact werden nur die configuration  messages versteckt (hidden)
-
-
+\subsubsection{20.03}
+-lacp link Bündelung, proprietäre Cisco PAgP implementierung
+\url{https://www.omnisecu.com/cisco-certified-network-associate-ccna/how-to-configure-etherchannel-port-aggregation-protocol-pagp-in-cisco-switch.php}
+\begin{lstlisting}[language=bash]
+omnisecu.com.SW1(config)#interface range gigabitEthernet 0/1 - 2
+omnisecu.com.SW1(config-if-range)#channel-group 1 mode desirable
+omnisecu.com.SW1(config-if-range)#channel-protocol pagp 
+omnisecu.com.SW1(config-if-range)#exit
+omnisecu.com.SW1(config)#exit
+\end{lstlisting}
+-tcpdump, wireshark um auf monitorport pakete abzuhören
+-zweite netzwerkkarte an Laptop und switch angeschlossen
+-scapy versucht um ein Paket loszuschicken, hat nicht geklappt,a ber auch nicht erforderlich weil Wireshark bei MacSec das als Protokoll anzeigen würde und nicht tcp
+-port syn scanning
+- wireshark tutorial angeguckt
+- monitor port mit monitor session 1 source te1/1/8
+.monitor session 1 destinatin te1/0/24 encasulation replicate, replicate bringt wohl nichts
 \section{Introduction}\label{sec:intro}
 \lipsum[1-3]\todo{Refine me}
 
