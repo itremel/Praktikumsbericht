@@ -563,6 +563,17 @@ omnisecu.com.SW1(config)#exit
 - wireshark tutorial angeguckt
 - monitor port mit monitor session 1 source te1/1/8
 .monitor session 1 destinatin te1/0/24 encasulation replicate, replicate bringt wohl nichts
+
+
+\subsection{4. Woche}
+\subsubsection{23.03}
+-$problem bei cisco trust sec bei switch 2 kommt nach "show macsec interface te1/1/8" immer "*Mar 23 09:30:01.940: MACSec-IPC: getting macsec sa_sc response",$ also lieber mka single host mode probieren
+-no macsec network-link auf allen nodes, dann mka policy ändern, dann wieder macsec network link anmachen \url{https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst3650/software/release/16-6/configuration_guide/sec/b_166_sec_3650_cg/macsec_encryption.html}
+-fehlersuche mit stefan taute, usb netzwerkkarte kann nur 100mbit/s deswegen DUMP größe zwischen eno1 und usbnetzwerkkarte 1GB zu 15MB
+- bei 100mbits switch beschränkung 118 und 124 MB
+-monitorport am switch sieht eventuell bereits die entschlüsselten daten 
+
+
 \section{Introduction}\label{sec:intro}
 \lipsum[1-3]\todo{Refine me}
 
