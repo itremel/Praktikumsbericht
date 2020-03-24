@@ -573,7 +573,14 @@ omnisecu.com.SW1(config)#exit
 - bei 100mbits switch beschränkung 118 und 124 MB
 -monitorport am switch sieht eventuell bereits die entschlüsselten daten 
 
-
+\subsubsection{24.03}
+-linphone eingerichtet
+- Ziel ist Hub zwischenzuschalten, um die Pakete abzuhören
+- Nur Switch vorhanden, deshalb macspoofing mittels macof, um die mac adressen tabelle überlaufen zu lassen, sodass switch broadcsted und linux box mit usb netzwerkkabel mithören kann \url{https://brakertech.com/flood-network-with-random-mac-addresses-with-macof-tool/}
+-  sudo macof -i eno1
+führt dazu, dass ping nach 192.168.111.1 durch sudo tcpdump -i enx74da389fee2f -s 0 -w hubping.dump zugesendet bekommt
+- ohne macsec funktioniert dies, allerdings lässt sich macsec auf diesem interface te1/0/12 nicht anstellen, sondern nur auf te1/1/8 ( - Interface is not MACsec capable.
+)
 \section{Introduction}\label{sec:intro}
 \lipsum[1-3]\todo{Refine me}
 
