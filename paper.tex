@@ -576,11 +576,43 @@ omnisecu.com.SW1(config)#exit
 \subsubsection{24.03}
 -linphone eingerichtet
 - Ziel ist Hub zwischenzuschalten, um die Pakete abzuhören
-- Nur Switch vorhanden, deshalb macspoofing mittels macof, um die mac adressen tabelle überlaufen zu lassen, sodass switch broadcsted und linux box mit usb netzwerkkabel mithören kann \url{https://brakertech.com/flood-network-with-random-mac-addresses-with-macof-tool/}
+- Nur Switch vorhanden, deshalb macspoofing mittels macof, um die mac adressen tabelle überlaufen zu lassen, sodass switch broadcasted und linux box mit usb netzwerkkabel mithören kann \url{https://brakertech.com/flood-network-with-random-mac-addresses-with-macof-tool/}
 -  sudo macof -i eno1
 führt dazu, dass ping nach 192.168.111.1 durch sudo tcpdump -i enx74da389fee2f -s 0 -w hubping.dump zugesendet bekommt
 - ohne macsec funktioniert dies, allerdings lässt sich macsec auf diesem interface te1/0/12 nicht anstellen, sondern nur auf te1/1/8 ( - Interface is not MACsec capable.
 )
+
+\subsubsection{25.03}
+- MACSec Pakete werden erfolgreich auf zwischengeschaltetem Switch auf POrts 12 mitgeschnitten und auf POrt 3 des kleinen Switches per USB Netzwerkkarte an Linux Box übertragen
+-funktioniert entweder mit CTS(Trustsec) oder MKA 
+-cisco 9300 24ux a Seite --> Configuration Guides --> Platform COnfiguration -->Software Configuration Guide, Cisco IOS XE Gibraltar 16.12.x (Catalyst 9300 Switches) --> Security --> MACSec Encryptino ist die beste offizielle Dokumentation \url{https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-12/configuration_guide/sec/b_1612_sec_9300_cg/macsec_encryption.html}
+- beste Configexample mit LACP
+\begin{lstlisting}[language=bash]
+Device> enable
+Device# configure terminal
+Device(config)# key chain KC macsec
+Device(config-key-chain)# key 1000
+Device(config-key-chain)# cryptographic-algorithm aes-128-cmac
+Device(config-key-chain)# key-string FC8F5B10557C192F03F60198413D7D45
+Device(config-key-chain)# exit
+Device(config)# mka policy POLICY
+Device(config-mka-policy)# key-server priority 0
+Device(config-mka-policy)# macsec-cipher-suite gcm-aes-128
+Device(config-mka-policy)# confidentiality-offset 0
+Device(config-mka-policy)# exit
+Device(config)# interface gigabitethernet 1/0/1
+Device(config-if)# channel-group 2 mode active
+Device(config-if)# macsec network-link
+Device(config-if)# mka policy POLICY
+Device(config-if)# mka pre-shared-key key-chain KC
+Device(config-if)# exit
+Device(config)# interface gigabitethernet 1/0/2
+Device(config-if)# channel-group 2 mode active
+Device(config-if)# macsec network-link
+Device(config-if)# mka policy POLICY
+Device(config-if)# mka pre-shared-key key-chain KC
+Device(config-if)# end
+\end{lstlisting}
 \section{Introduction}\label{sec:intro}
 \lipsum[1-3]\todo{Refine me}
 
