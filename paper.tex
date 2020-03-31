@@ -686,6 +686,15 @@ Device(config-if)# end
 -ssh root@192.168.183.158 ,pw abbrechen um file zu erzeugen
 - nano $/root/.ssh/authorized_keys$
 
+\subsubsection{31.03}
+- clean install nach quickanleitung führt zu Verbindung nicht verfügbar, müssten nginx logs angucken warum, aber noch nicht getan
+- deinstallation und neuinstallation konferenz aufmachen möglich, aber verbindung bricht ab sobald zweiter teilnehmer joint
+- jitsi videobridge component secret erforderlich, weiß aber keinen wert dafür
+- jitsi videobridge (jvb) /etc/jitsi/videobridge/config, (prosody) xmpp server /etc/prosody/conf.avail/192.168.183.158.cfg.lua, (jicofo) jitsi conference focus logs und configs angeguckt, aber schwierige fehlersuche
+\url{https://github.com/jitsi/jitsi-meet/blob/master/doc/quick-install.md}
+-- versuch mit apache2 default website anzeigen ging nicht, da  firefox hat immer auf ssl umgeleitet, weil das vorher bei jitsi so konfiguriert war und die deinstalltion von jitsi nicht restlos möglich war
+-- Lösung durch privates fenster ohne cache/cookie die seite aufrufen
+- vorher funktionierenden nginx server installieren, dann mit normalem quick install beginnen mit jitsi-meet-turnserver, da nginx nur auf port 80 und nicht 443 konfiguriert ist
 
 
 \section{Introduction}\label{sec:intro}
