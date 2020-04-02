@@ -694,7 +694,7 @@ Device(config-if)# end
 \url{https://github.com/jitsi/jitsi-meet/blob/master/doc/quick-install.md}
 -- versuch mit apache2 default website anzeigen ging nicht, da  firefox hat immer auf ssl umgeleitet, weil das vorher bei jitsi so konfiguriert war und die deinstalltion von jitsi nicht restlos möglich war
 -- Lösung durch privates fenster ohne cache/cookie die seite aufrufen
-- vorher funktionierenden nginx server installieren, dann mit normalem quick install beginnen mit jitsi-meet-turnserver, da nginx nur auf port 80 und nicht 443 konfiguriert ist
+- vorher funktionierenden nginx server installieren, dann mit normalem quick install beginnen (nicht extra ohne jitsi-meet-turnserver), da nginx nur auf port 80 und nicht 443 konfiguriert ist, aber hat eventuell, doch ohne coturn installiert
 
 \subsubsection{1.04}
 -Jitsi Server Test vorbereiten, Gesprächscounter geht nicht? jicofo can focus im log nicht als component laden?
@@ -704,6 +704,19 @@ Device(config-if)# end
 - LACP Load Sharing testen src mac adresse standard
 - usb netzwerkkarten anschließen geht nicht wegen routing
 - iperf tests mit mehrern servern und clients um doppelte bandbreite zu nutzen
+
+\subsubsection{2.04}
+- Calc JitsiTestKonferenz Tabelle vorbereitet
+- Nextcloud bei talk.planet-ic.de damit online geshared die Werte eingetragen werden können-
+- zwei weitere Laptops an lokales Netz angschlossen, um Konferenz zu testen, da vorher immer ab drittem teilnehmer von mir selbst ein abbruch der Konferenz erfolgte, lag wahrscheinlich an p2p zu server umstellung
+- Problem war Mitarbeiterfirewall der testlab die alles blockt
+- herausgefunden durch jvb.log pair failed zu ip von meinem laptop oder den windows laptops
+- vorher namp scan auf testlab server 192.168.183.158, um zu sehen, dass ich nicht freigeschaltet war
+- jetzt gehen firefox und chrome
+- überlegen optimierungen , das beim browser für webrtc die codecs angeboten werden vp8 vp9 h264 \url{chrome://webrtc-internals/}
+-lacp mit vier laptops(zwei server zwei clients) geht mit iperf3, erreicht dopplete bandbreite
+- drei clients auf einen server mit drei ports geht nur 100mbits
+- zweite nic usb netzwerkkarte mit zwei client und einem server gibt auch nur 50+50 = 100mbits
 
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
