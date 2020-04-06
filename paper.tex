@@ -629,6 +629,7 @@ Device(config-if)# end
 \subsubsection{30.03}
 -LACP Bündelung testen, Ausfallsicherheit, doppelte Datenrate \url{https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst9300/software/release/16-12/configuration_guide/sec/b_1612_sec_9300_cg/macsec_encryption.html}
 -show etherchannel summary
+- MACSec an/ausschalten bei Abschnitt Configuring MKA MACsec using PSK no macsec network-link
 \begin{lstlisting}[language=bash]
 Device> enable
 Device# configure terminal
@@ -725,6 +726,74 @@ Device(config-if)# end
 - chrome skype gastkonto konferenz
 - multicast gibts in iperf3 nicht mehr
 
+\subsection{6. Woche}
+\subsubsection{06.04}
+- Aufbau LACP Geschwindigkeitstest 2 * 100 MBit/s und Standardwert bei Loadbalancing, also src-mac adresse
+- 1 Laptop ist iperf3 Server mit drei weiteren USB 3.0 Netzwerkkarten, deren IP statisch festgelegt werden
+- vier weitere Laptops sind die iperf3 Clients mit passender IP für eines der vier Netze
+- alle in verschiedenen Netzen 
+- voher alle am gleichen Switch angeschlossen, um 1Gbit (~940Mbit) zu bestätigen
+- Danach Sender und Empfänger auf die gegenüberliegenden Seiten der LACP Brücke/Verbindung gesteckt
+\begin{lstlisting}[language=bash]
+Laptop 1 Server mit drei USB Netzwerkkarten
+$ iperf3 -s (192.168.111.1/24)
+$ iperf3 -s -p5202 (192.168.112.42/24)
+$ iperf3 -s -p5203 (192.168.113.60/24)
+$ iperf3 -s -p5204 (192.168.114.177/24)
+
+Laptop 2 erstes Netz
+$ iperf3 -c 192.168.111.1 -t600
+Laptop 3 zweites Netz
+$ iperf3 -c 192.168.112.42 -t600 -p5202
+Laptop 4 drittes Netz
+$ iperf3 -c 192.168.113.60 -t600 -p5203
+Laptop 5 viertes Netz
+$ iperf3 -c 192.168.114.177 -t600 -p5204
+\end{lstlisting}
+- bei zwei Verbindungen erreicht macsec ~93Mbit/s jeweils
+- drei Verbindungen verteilt sich zu 100 + 2*50 Mbit/s
+- vier Verbindungen 2*50Mbit/s + 2*50Mbit/s
+\begin{table}
+	\caption{10min Messung iperf3 mit MACSec}
+	\label{tab:iperf3}
+	\centering
+	\begin{tabular}{lr}
+		\toprule
+		Port & Bandwidth in MBit/s\\
+		\midrule
+		5201      & 35.8      \\
+		5202     & 51.6     \\
+		5203      & 41.3      \\
+		5204     & 56.6     \\
+		\bottomrule
+		5201 +5204     & 35.8 + 56.6 = 92.4      \\
+		5202 +5203     & 51.6 + 41.3 = 92.9      \\
+	\end{tabular}
+\end{table}
+- Verbindung 1 und 4 teilen sich; 35.8 + 56.6 = 92.4
+- Verbindung 2 und 3 teilen sich; 51.6 + 41.3 = 92.9
+
+\begin{table}
+	\caption{10min Messung iperf3 ohne MACSec}
+	\label{tab:iperf3}
+	\centering
+	\begin{tabular}{lr}
+		\toprule
+		Port & Bandwidth in MBit/s\\
+		\midrule
+		5201      & 45.2      \\
+		5202     & 50.5    \\
+		5203      & 44.3      \\
+		5204     & 49.3     \\
+		\bottomrule
+		5201 +5204     & 45.2 + 49.3 = 94.5      \\
+		5202 +5203     & 50.5 + 44.3 = 94.8      \\
+	\end{tabular}
+\end{table}
+
+- Windows file sharing über lan: netzwerkverbindungen --> erweiterte fregabeeinstallungen anstellen
+- ordner freigeben und berechtigungen setzen 
+- be anderem pc pfad \path{\\PC_SCH01\\iperf3-win1414\}
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
