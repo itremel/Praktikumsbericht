@@ -754,8 +754,8 @@ $ iperf3 -c 192.168.114.177 -t600 -p5204
 - drei Verbindungen verteilt sich zu 100 + 2*50 Mbit/s
 - vier Verbindungen 2*50Mbit/s + 2*50Mbit/s
 \begin{table}
-	\caption{10min Messung iperf3 mit MACSec}
-	\label{tab:iperf3}
+	\caption{10min LACP iperf3 mit MACSec}
+	\label{tab:LACPMACSec}
 	\centering
 	\begin{tabular}{lr}
 		\toprule
@@ -774,8 +774,8 @@ $ iperf3 -c 192.168.114.177 -t600 -p5204
 - Verbindung 2 und 3 teilen sich; 51.6 + 41.3 = 92.9
 
 \begin{table}
-	\caption{10min Messung iperf3 ohne MACSec}
-	\label{tab:iperf3}
+	\caption{10min LACP iperf3 ohne MACSec}
+	\label{tab:LACPohneMACSec}
 	\centering
 	\begin{tabular}{lr}
 		\toprule
@@ -794,6 +794,39 @@ $ iperf3 -c 192.168.114.177 -t600 -p5204
 - Windows file sharing über lan: netzwerkverbindungen --> erweiterte fregabeeinstallungen anstellen
 - ordner freigeben und berechtigungen setzen 
 - be anderem pc pfad \path{\\PC_SCH01\\iperf3-win1414\}
+\subsubsection{07.04}
+-Tabelle \ref{tab:KupferMACSec} stellt Messung 10min einfache Verbindung über Kupferkabel 1GBit/s mit MACSec dar
+\begin{table}
+	\caption{10min Kupferkabel iperf3 mit MACSec}
+	\label{tab:KupferMACSec}
+	\centering
+	\begin{tabular}{llr}
+		\toprule
+		Interval& Transfer  & Bandwidth \\
+		\midrule
+		0.00-600.04 sec &65.2 GBytes      & 934 MBits/sec     \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+-Tabelle \ref{tab:KupferohneMACSec} zeigt Messung 10min einfache Verbindung über Kupferkabel 1GBit/s ohne MACSec --> exakt gleiche Werte
+\begin{table}
+	\caption{10min Kupferkabel iperf3 ohne MACSec}
+	\label{tab:KupferohneMACSec}
+	\centering
+	\begin{tabular}{llr}
+		\toprule
+		Interval& Transfer  & Bandwidth \\
+		\midrule
+		0.00-600.04 sec &65.2 GBytes      & 934 MBits/sec     \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+-gns3 webui mit host only adapter ip port 3080
+- gns3 gui, um router images zu importieren \url{https://docs.gns3.com/1QXVIihk7dsOL7Xr7Bmz4zRzTsJ02wklfImGuHwTlaA4/index.html}
+- versucht router mit zweitem netzwerkadapter nat zum internet zu verbinden
+
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
