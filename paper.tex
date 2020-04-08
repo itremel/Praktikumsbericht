@@ -794,6 +794,7 @@ $ iperf3 -c 192.168.114.177 -t600 -p5204
 - Windows file sharing über lan: netzwerkverbindungen --> erweiterte fregabeeinstallungen anstellen
 - ordner freigeben und berechtigungen setzen 
 - be anderem pc pfad \path{\\PC_SCH01\\iperf3-win1414\}
+	
 \subsubsection{07.04}
 -Tabelle \ref{tab:KupferMACSec} stellt Messung 10min einfache Verbindung über Kupferkabel 1GBit/s mit MACSec dar
 \begin{table}
@@ -826,6 +827,13 @@ $ iperf3 -c 192.168.114.177 -t600 -p5204
 -gns3 webui mit host only adapter ip port 3080
 - gns3 gui, um router images zu importieren \url{https://docs.gns3.com/1QXVIihk7dsOL7Xr7Bmz4zRzTsJ02wklfImGuHwTlaA4/index.html}
 - versucht router mit zweitem netzwerkadapter nat zum internet zu verbinden
+
+\subsubsection{08.04}
+- jitsi test laptops vorberitet 2*i5 mit windows, 1*i7 windows 1*i7 ubuntu
+-gns3 iosvl2 image für switch, lacp eingerichet, ausfallsicherheit klappt
+- virtualbox images in die topologie eingefügt, win2k8 server metasploit und 2*kali linux, alles im selben netz über switch, können sich anpingen
+-iperf aber nur 1.75mbits von kali(vm)-->switch<--kali(vmlinked base und headless)
+- nur virtualbox kali zu host hatte 900mbits
 
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
