@@ -699,7 +699,7 @@ Device(config-if)# end
 
 \subsubsection{1.04}
 -Jitsi Server Test vorbereiten, Gesprächscounter geht nicht? jicofo can focus im log nicht als component laden?
-- Testkriterien Broswer Firefox oder Chrome, OS Linux oder Windows, Cpu Auslastung, Anzahl Teilnehmer mit Bildschirmübertragung Webcam/micro
+- Testkriterien Browser Firefox oder Chrome, OS Linux oder Windows, Cpu Auslastung, Anzahl Teilnehmer mit Bildschirmübertragung Webcam/micro
 - h.264 seitdem geht firefox nicht mehr, sondern nur noch chrome
 - Jitsi Desktop xmpp (jabber pidgin) und sip eingerichtet, aber kann nicht mit jitsi meet verbinden, daher nutzlos
 - LACP Load Sharing testen src mac adresse standard
@@ -829,12 +829,46 @@ $ iperf3 -c 192.168.114.177 -t600 -p5204
 - versucht router mit zweitem netzwerkadapter nat zum internet zu verbinden
 
 \subsubsection{08.04}
-- jitsi test laptops vorberitet 2*i5 mit windows, 1*i7 windows 1*i7 ubuntu
+- jitsi test laptops vorbereitet 2*i5 mit windows, 1*i7 windows 1*i7 ubuntu
 -gns3 iosvl2 image für switch, lacp eingerichet, ausfallsicherheit klappt
 - virtualbox images in die topologie eingefügt, win2k8 server metasploit und 2*kali linux, alles im selben netz über switch, können sich anpingen
 -iperf aber nur 1.75mbits von kali(vm)-->switch<--kali(vmlinked base und headless)
 - nur virtualbox kali zu host hatte 900mbits
 
+\subsubsection{09.04}
+- gns mit L2 IOU verliert immer die Verbindung zum Switch nach 30s iperf3, erreicht 40mbits
+- drei Kali LInux VirtualbBox VMs und einmal win10 Virtualbox VM eingebunden
+- nochmals LACP nachgestellt, kann aber nicht getestet werden wegen cisco licensen für gns3/verbindungsabbruch
+- aufgabe backbone area von planet ic nachstellen mit dynamips c7200 router und BGP und OSPF
+
+\subsection{7. Woche}
+\subsubsection{14.04}
+-vier Laptops mit firewall nach außen freigeschaltet
+- in Tabelle \ref{tab:JitsiVergleich} haben alle Anbieter sehr ähnliche Werte
+-i5 win 172.16.99.100 
+ i5 Präsentation/Win 172.16.99.175 OHNE WEBCAM
+ i7 win 172.16.99.176
+ i7 linux 172.16.99.79
+
+- \url{chrome://gpu} linux schlechter als windwos da kein hardware accelerated video decode -\url{https://www.omgubuntu.co.uk/2018/10/hardware-acceleration-chrome-linux} chrome hat auf linux kein interesse dies zu implementieren
+ 
+ \begin{table}
+ 	\caption{Vergleich Gesamt CPU Auslastung in \% jitsi vier Teilnehmer}
+ 	\label{tab:JitsiVergleich}
+ 	\centering
+ 	\begin{tabular}{lccc}
+ 		\toprule
+ 		Laptop & 192.168.183.158& meet.jit.si  & copendia \\
+ 		\midrule
+ 		i7 linux &50 &55      & 53     \\
+ 		i7 win &31 &33      & 33     \\
+ 		i5 Präsentation/Win &31 &31      & 31     \\
+ 		i5 Win &50 &56     & 52     \\ 		
+ 		\bottomrule
+ 	\end{tabular}
+ \end{table}
+
+-ospf in gns3 mit backbone area nachstellen \url{https://docs.gns3.com/1d1huu6z9-wWGD_ipTSQZqy2mpaxiqzymu-YQo6at_Jg/index.html}
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
