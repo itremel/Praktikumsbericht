@@ -869,6 +869,58 @@ $ iperf3 -c 192.168.114.177 -t600 -p5204
  \end{table}
 
 -ospf in gns3 mit backbone area nachstellen \url{https://docs.gns3.com/1d1huu6z9-wWGD_ipTSQZqy2mpaxiqzymu-YQo6at_Jg/index.html}
+
+\subsubsection{15.04}
+-gns3 backbone area mit drei c7200 routern und ospf und bgp nachgebaut, sodass sie ihre loopback adressen pingen können
+-bgp configuring peer process und bgp routing process abschnitte auf allen routern durchführen und ips und Autonomous system(AS) anpassen \url{https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_bgp/configuration/15-mt/irg-15-mt-book.pdf}
+\begin{lstlisting}[language=bash]
+BGPRoutingProcess
+Device>enable
+Device#configure terminal
+Device(config)#router bgp 40000
+Device(config-router)#network 2.2.2.2 mask 255.255.255.255
+Device(config-router)#end
+Device#show ip bgp
+\end{lstlisting}
+\begin{lstlisting}[language=bash]
+BGPPeer
+Device>enable
+Device#configure terminal
+Device(config)#router bgp 40000
+Device(config-router)#neighbor 20.1.1.3 remote-as 45000
+Device(config-router)#address-family ipv4 unicast
+Device(config-router-af)#neighbor 20.1.1.3 activate
+Device(config-router)#end
+Device#show ip bgp
+Device(config-router-af)#show ip bgp neighbors
+\end{lstlisting}
+
+-ospf \url{https://docs.gns3.com/1d1huu6z9-wWGD_ipTSQZqy2mpaxiqzymu-YQo6at_Jg/index.html}
+-auf allen geräten interfaces konfigurieren
+\begin{lstlisting}[language=bash]
+Configure Layer 3 addressing on the devices
+R1(config)# int fa0/0
+R1(config-if)#no shut
+R1(config-if)#ip add 10.1.1.1 255.255.255.0
+R1(config-if)#int loop 0
+R1(config-if)#ip add 1.1.1.1 255.255.255.255
+R1(config-if)# end
+\end{lstlisting}
+-ospf einrichten auf allen geräten
+\begin{lstlisting}[language=bash]
+R1(config)#router ospf 1
+R1(config-router)#router-id 1.1.1.1
+R1(config-router)#network 0.0.0.0 255.255.255.255 area 0
+R1(config-router)#end
+note:  using "network 0.0.0.0 255.255.255.255 area 0" in ospf is a shortcut to enable ospf on all interfaces in an ospf area. It's not always desirable in the real world, but is fine for lab purposes
+R2#sh ip ospf neigh
+R1#sh ip route
+\end{lstlisting}
+
+
+
+
+
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
