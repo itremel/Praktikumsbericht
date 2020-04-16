@@ -916,9 +916,19 @@ note:  using "network 0.0.0.0 255.255.255.255 area 0" in ospf is a shortcut to e
 R2#sh ip ospf neigh
 R1#sh ip route
 \end{lstlisting}
-
-
-
+-jitsi testkonferenz mit 13/14 teilnehmern und performancewerte der vier neu aufgestzten laptops aufgeschrieben
+\subsubsection{16.04}
+-Einrichtung Remote Server gns3 auf testlab
+- ubuntu server network 192.168.183.0/24, 192.168.183.182, gateway 192.168.183.1, dns 195.98.223.1 und dann installscripts \url{https://docs.gns3.com/1c2Iyiczy6efnv-TS_4Hc7p11gn03-ytz9ukgwFfckDk/index.html}
+- web ui zugang auf 192.168.183.181:3080
+- gns3-converter um remote triggered Black Holing projekt zu importieren
+\url{https://blog.pierky.com/gns3-lab-remote-triggered-black-holing/}
+- in vim .net File alle Verbindungen entfernt, da Ethernet port mit serial port connected war
+- rm -r Downloads*
+-gns3-converter ~/Downloads/RTBH.net
+-vim RTBH.net
+-gns3 neustarten und open project
+-mit Eric Switch im RZ2 eingebaut
 
 
 \section{Introduction}\label{sec:intro}
