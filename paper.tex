@@ -916,7 +916,22 @@ note:  using "network 0.0.0.0 255.255.255.255 area 0" in ospf is a shortcut to e
 R2#sh ip ospf neigh
 R1#sh ip route
 \end{lstlisting}
--jitsi testkonferenz mit 13/14 teilnehmern und performancewerte der vier neu aufgestzten laptops aufgeschrieben
+-in tabelle \ref{tab:Jitsi1314} jitsi testkonferenz mit 13/14 teilnehmern und performancewerte der vier neu aufgestzten laptops aufgeschrieben
+ \begin{table}
+	\caption{Vergleich Gesamt CPU Auslastung in \% jitsi 13/14 Teilnehmer}
+	\label{tab:Jitsi1314}
+	\centering
+	\begin{tabular}{lccc}
+		\toprule
+		Laptop & 192.168.183.158& qualität niedrig  \\
+		\midrule
+		i7 linux &67 &60          \\
+		i7 win &53 &47           \\
+		i5 Präsentation/Win &72 &60        \\
+		i5 Win &88 &66        \\ 		
+		\bottomrule
+	\end{tabular}
+\end{table}
 \subsubsection{16.04}
 -Einrichtung Remote Server gns3 auf testlab
 - ubuntu server network 192.168.183.0/24, 192.168.183.182, gateway 192.168.183.1, dns 195.98.223.1 und dann installscripts \url{https://docs.gns3.com/1c2Iyiczy6efnv-TS_4Hc7p11gn03-ytz9ukgwFfckDk/index.html}
@@ -929,7 +944,10 @@ R1#sh ip route
 -vim RTBH.net
 -gns3 neustarten und open project
 -mit Eric Switch im RZ2 eingebaut
-
+\subsubsection{17.04}
+-projekt vom blog auf remote gns3 server mit c7200 routern nachgebaut
+- blackholing global oder bestimmte isp funktioniert
+-nachbau backbone area über draw.io bild und versuch blackholing damit zu simulieren
 
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
