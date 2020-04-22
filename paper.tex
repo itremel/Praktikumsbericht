@@ -962,6 +962,15 @@ R1#sh ip route
 - router konfigurationen für IPS Edge und Cust Router mit ip adressen und bgp mit filter list out für edge router
 -access list und route maps nummer am ende 10/20/30 ist einfach nummerierung \url{https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/49111-route-map-bestp.html} match und set bei route-maps
 
+\subsubsection{22.04}
+-versuch customer triggered black holing anzuwenden, da advertising der bgp prefix routen nicht geklappt hat \url{https://blog.pierky.com/gns3-labs-bgp-customer-triggered-black-holing/}
+- gelernt überroute maps und bgp verbindungen mit neighbor angaben uaf beiden routerseiten(Core und Edge), haben bei customer black holing aber auch nicht funktioniert
+- letztlich doch mit der remote variante funktioniert, bb05 ist core router mit den vier/fünf RTBH route map regeln, redistributed die static route map und baut die Edge peer-group auf
+- immer mit sh ip bgp $prefix$ oder sh ip route/cef auf den edge routern die verbindung prüfen und dann von ISP ping 192.168.10.1 source lo0
+- bei den eingehenden edge routern mit der route map auf community und as path prüfen und dann auf 192.0.2.1 die wiederum auf null0 umleitet
+- BGP-CUST1 aus den beispielen kann vernachlässigt werden, nur damit customer nur ihre eigenen Netze anbieten
+- es war zwingend erforderlich das ospf 300 netz für core und edges einzurichten, erst dann ging die Übergabe der bgp prefix routen, die bei Core eingegeben werden --> ip route 192.168.10.1 255.255.255.255 null0 tag 100 bisher getestet
+
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
