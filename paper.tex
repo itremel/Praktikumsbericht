@@ -934,7 +934,7 @@ R1#sh ip route
 \end{table}
 \subsubsection{16.04}
 -Einrichtung Remote Server gns3 auf testlab
-- ubuntu server network 192.168.183.0/24, 192.168.183.182, gateway 192.168.183.1, dns 195.98.223.1 und dann installscripts \url{https://docs.gns3.com/1c2Iyiczy6efnv-TS_4Hc7p11gn03-ytz9ukgwFfckDk/index.html}
+- ubuntu server network 192.168.183.0/24, 192.168.183.181, gateway 192.168.183.1, dns 195.98.223.1 und dann installscripts \url{https://docs.gns3.com/1c2Iyiczy6efnv-TS_4Hc7p11gn03-ytz9ukgwFfckDk/index.html}
 - web ui zugang auf 192.168.183.181:3080
 - gns3-converter um remote triggered Black Holing projekt zu importieren
 \url{https://blog.pierky.com/gns3-lab-remote-triggered-black-holing/}
@@ -954,30 +954,39 @@ R1#sh ip route
 -KVM wieder eine KVM starten zu können auf HPV1 folgendes umgesetzt in Proxmox bewirkt flag vmx|svm bei /proc/cpuinfo
 - GNS3 Project über webui exportieren und in neuem server wieder über webui importieren
 - nicht die images mit scp hinüberkopieren, sondern auf Client mit gns3-gui das template für Router/Switch erstellen und damit hochladen
+- dann projekt über web ui exportieren und dann wieder importieren
 -Szenario Remote Triggerd Black Holing für Planet Back Bone Area nachgebaut bis Schritt 2.Routing der rtbh configs, also 3 AS für bgp in den routern und die ip adressen verteilt
 \subsubsection{21.04}
 -mit eric asa im rz eingebaut
--linphone für desktop eingerichtet sip:2171@troubadix.planet-ic.de <sip:troubadix.planet-ic.de;transport=udp> dann oben accoutn auswählen und passwort eingeben
+-linphone für desktop eingerichtet sip:2171@troubadix.planet-ic.de <sip:troubadix.planet-ic.de;transport=udp> dann oben account auswählen und passwort eingeben
 -backbone area planet in gns3 ohne core router nach blog-beispiel weitergebaut \url{https://blog.pierky.com/gns3-lab-remote-triggered-black-holing/}
-- router konfigurationen für IPS Edge und Cust Router mit ip adressen und bgp mit filter list out für edge router
+- router konfigurationen für ISP Edge und Cust Router mit ip adressen und bgp mit filter list out für edge router
 -access list und route maps nummer am ende 10/20/30 ist einfach nummerierung \url{https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/49111-route-map-bestp.html} match und set bei route-maps
 
 \subsubsection{22.04}
 -versuch customer triggered black holing anzuwenden, da advertising der bgp prefix routen nicht geklappt hat \url{https://blog.pierky.com/gns3-labs-bgp-customer-triggered-black-holing/}
-- gelernt überroute maps und bgp verbindungen mit neighbor angaben uaf beiden routerseiten(Core und Edge), haben bei customer black holing aber auch nicht funktioniert
+- gelernt über route maps und bgp verbindungen mit neighbor angaben auf beiden routerseiten(Core und Edge), haben bei customer black holing aber auch nicht funktioniert
 - letztlich doch mit der remote variante funktioniert, bb05 ist core router mit den vier/fünf RTBH route map regeln, redistributed die static route map und baut die Edge peer-group auf
 - immer mit sh ip bgp $prefix$ oder sh ip route/cef auf den edge routern die verbindung prüfen und dann von ISP ping 192.168.10.1 source lo0
 - bei den eingehenden edge routern mit der route map auf community und as path prüfen und dann auf 192.0.2.1 die wiederum auf null0 umleitet
 - BGP-CUST1 aus den beispielen kann vernachlässigt werden, nur damit customer nur ihre eigenen Netze anbieten
 - es war zwingend erforderlich das ospf 300 netz für core und edges einzurichten, erst dann ging die Übergabe der bgp prefix routen, die bei Core eingegeben werden --> ip route 192.168.10.1 255.255.255.255 null0 tag 100 bisher getestet
+-lag möglicherweise an set origin igp
 \subsubsection{23.04}
--weitere Versuche mit customer black holing auf 192.168.183.181 blackholing
+-weitere Versuche mit customer black holing auf 192.168.183.181 projekt blackholing
 - route wird von cust 10 angegeben, Edge3 darf diese nicht in einer eingehenden routemap mit set verändern, sondern nur mit match prüfen und dann weiter durchreichen. Sobald set ip next-hop 192.0.2.1 gemacht wird, wird die route nicht mehr an edge1 und edge2 und auch nicht an core geschickt.  set community no-export no-advertise geht nur ohne no-advertise und dann wird bei sh ip bgp next hop 192.168.0.2 statt 192.0.2.1 genommen.
 - problem ist die weiterverteilung der routen über bgp, so dass jede node entsprechend seiner community die regel beachtet oder denied
 - das remote black holing triggern über core funktioniert weiterhin bei 181 auf aufgabenstand 4 der zusammengeschusterten rtbh configs und bei 182 noch auf den ursprünglichen RTBH 3 configs
 - bei 182 mit planet backbone project ist der core router code in einen edge router reingetan und das isp blackholing funktioniert, allerdings ist global connect(der core/edge router) immer gesperrt und nicht entsprechend der community(bei 102/199 sollte er durchlassen, tut er aber nicht)
-- customer sind nicht über einen edge router verbunden, sondern direkt über switch deswegen ist 199 nicht anderes customer netz blackholen, sondern für den dritten isp genutzt
+- customer sind nicht über einen edge router verbunden, sondern direkt über switch deswegen wird durch tag 199 nicht das andere customer netz geblackhol'ed, sondern für den dritten isp genutzt (DTAG)
 -mit eric server ausgebaut und rambestückungen getestet
+
+\subsection{10. Woche}
+\subsubsection{04.05}
+-andreas gns3 einführung gegeben
+- sudo gns3restore hat gns3 virtualbox vm zerschossen, wieder zum informations screen mit zweimal exit oder logout
+- kopieren der projekte von remote server zu lokal
+-vorbereiten von mdk test mit bgp ausfallsichere routen
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
