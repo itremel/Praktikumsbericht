@@ -987,6 +987,14 @@ R1#sh ip route
 - sudo gns3restore hat gns3 virtualbox vm zerschossen, wieder zum informations screen mit zweimal exit oder logout
 - kopieren der projekte von remote server zu lokal
 -vorbereiten von mdk test mit bgp ausfallsichere routen
+\subsubsection{04.05}
+-nachbau eines VPN mit IPSec mittels blog tutorial beitrag \url{https://www.chennaicisco.com/2013/11/configure-site-to-site-vpn-in-cisco.html}
+- paper zu vpn gelesen und nachgestellt \url{https://www.researchgate.net/publication/320536838_Implementation_of_IPsec-VPN_tunneling_using_GNS3}
+-topologie in mdktest nachgestellt
+-ip's und routingprotokoll rip aufgebaut, dann bei h0 und b0 die cryptoiskmp befehle übernommen
+- ping von Qemu1 zu Qemu2 ging vorher nicht, nach der vpn einrichtung ging der ping nach kurzem aufbau von authentifizierung 
+- leitung zwischen h0 und erstem isp router mit netz 30.0.0.1 über packet capture mittels wireshark inspiziert
+- traffic ist als esp paket verschlüsselt
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
