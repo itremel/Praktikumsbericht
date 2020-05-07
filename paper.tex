@@ -1014,7 +1014,22 @@ msf5 exploit(multi/handler) > run
 \subsubsection{07.05}
 -installation windows subsystem linux (WSL) mit \url{https://docs.microsoft.com/de-de/windows/wsl/install-win10}, einmal powershell line ausführen und dann aus windows store herunterladen, starten über windows store app
 - für weiterleitung der gui in ubuntu ubuntu-desktop installieren,\url{https://www.dev-insider.de/effizientes-arbeiten-mit-wsl-a-762971/} windows X server einrichten, also VcXsrv auf windows installieren
-- dann export DISPLAY=:0, wodurch xeyes als fenster in windows ausgegeben wird, zusätzlich noch windows defender ausschalten
+- dann $export DISPLAY=:0$, wodurch xeyes als fenster in windows ausgegeben wird, zusätzlich noch windows defender ausschalten
+- wsl2 installieren ging nicht wegen Organisations Richtlinien, wsl 1 hat Probleme mit file system  und ist dort sehr langsam, z.B. beim entpacken von zip
+- mit 18.04 ging die standard pidgin installation und texstudio, was bei 20.04 nicht ging
+-flatpak installationen zuerst flatpak und repository hinzufügen, dann app als flatpak install und run durchführen, ging wegen wls berechtigungen für pidgin nicht
+-firefox ging in 20.04 wenn man firefox 69 nimmt \url{https://github.com/microsoft/WSL/issues/4964} und dieses über ubuntuzilla mit 69.0.3 herunterlädt \url{https://askubuntu.com/questions/661186/how-to-install-previous-firefox-version}, dann $sudo chmod -R ugo-w$ \path{/usr/bin/firefox} auf readonly 
+\begin{lstlisting}[language=bash]
+fehlende latex packages
+apt-file search regexpatch.sty
+	sudo apt install texlive-latex-extra              
+apt-file search cfr-lm.sty  
+	sudo apt install texlive-fonts-extra 
+apt-file search textcmds.sty  
+	sudo apt install texlive-bibtex-extra   
+apt-file search siunitx.sty 
+	sudo apt install texlive-science
+\end{lstlisting}
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
