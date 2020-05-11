@@ -1039,14 +1039,23 @@ apt-file search siunitx.sty
 -bericht und themenzusammenfassung weiter bearbeitet
 - vektor screenshots mit \texttt{gtk-vector-screenshot} geht mit wireshark-gtk und terminals von linux, gns3 topologie erstmal nicht obwohl aus svg bestehend
 \begin{lstlisting}[
-caption={CISCO},
-label=CISCO,
+caption={Routerconfig IPSec VPN},
+label=Routerconfig,
 language=bash]
 crypto isakmp policy 10
-	authentication pre-share
-	hash md5
-	encryption des
-	group 2
+ hash md5
+ authentication pre-share
+ group 2
+crypto isakmp key security address 40.0.0.2 255.0.0.0
+!
+!
+crypto ipsec transform-set hoset esp-des esp-md5-hmac
+!
+crypto map homap 10 ipsec-isakmp
+ set peer 40.0.0.2
+ set transform-set hoset
+ match address 101
+!
 \end{lstlisting}
 \begin{figure}
 	\centering
@@ -1060,7 +1069,13 @@ crypto isakmp policy 10
 	\caption{esp}
 	\label{fig:esp}
 \end{figure}
-
+\subsection{11.Woche}
+\subsubsection{11.05}
+-Router mit IPSEC-VPN Rostock ausporbieren, MTU Größe
+- erst Licensen mit \texttt{sh license} sehen dass securityk9 nicht aktivated ist
+- diese als Evaluation (evalRightToUse)  über \texttt{license boot level securityk9} für 60 Tage aktivieren und dann \texttt{write} und \texttt{reload}
+-vpn einrichten hat nach Erics config geklappt
+-mtu größe testen mit \texttt{ping -c 1 -s \$((1500-28)) -M do 192.168.112.2} \url{https://www.elektronik-kompendium.de/sites/net/0812211.htm}
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
@@ -1073,7 +1088,12 @@ crypto isakmp policy 10
 
 Das remote Blackholing hat für die Firma den Nutzen, dass anstatt den DDOS Schutz beim ISP einzukaufen, diese Ressourcen für einen doppelten Ausbau der bisherigen Bandbreite genutzt werden kann. Die Kosten verhalten sich gleich wenn entweder  1GB/s und DDOS Protection vom Provider gebucht wird, oder der Netzanschluss auf 2GB/s erhöht wird und die DDOS Angriffe selbst auf den Edge Routern ins "Nichts" geleitet werden. Bisher hatten Angriffe z.B. einen Traffic von 500-600Mbit/s verursacht, die von der hinter den Routern geschalteten ASA mit einer Kapazität von 1GB bewältigt werden können. Ein DDOS Angriff der die Leitung an sich überlasten würde, ließe sich nich durch schnellere Router oder eine leistungsstärkere ASA abwehren, da der Flaschenhals eben durch die 1Gb Leitung dargestellt werden würde. Die Webserver wären nicht erreichbar, weil die Außenanbindung  nicht genügend Durchsatz besitzt um den Traffic durchzuleiten, der vom Angreifer produziert wird. Wenn die Leitung auf 2Gbps erhöht wird, reicht der Schutz der 1Gb ASA eventuell nicht mehr aus, weshalb es sinnvoll ist die Abwehr in Form des Blackholings auf die Edge Router, die Kapazitäten bis z.B. 10Gb haben, zu verlegen. Die ASA-Serie bietet zwar keinen DDoS-Schutz, aber kann Angriffe erkennen und sperren.
 
-Planet-IC ist ganzes Systemhaus mit Rechenzentrumsbetrieb, Netzwerk, Mediengestaltung, Design und Webentwicklung
+Planet-IC ist ganzes Systemhaus mit eigenem Rechenzentrumsbetrieb, Netzwerk, Mediengestaltung, Design und Webentwicklung
+
+Behandelte themen waren GNS3, Jitsi-Server, MACSec mit LACP Bündelung testen, CISCO ASA, DDOS, IPSEC-VPN, BGP Routen Ausfallsicherung,
+
+Zu dem VPN Test mit den rostocker Routern meinte Paul, dass die MTU Größe bei ihm innerhalb eines Nodes bei VmWare hochgeschraubt wurde und fragte, ob das bei den Produktivsystemen mit lxc Containern und Proxmox auch der Fall sein könnte. Ich sollte prüfen, wie bei der VPN Verbindung die maximale MTU für den besten Speed ist. Es wäre in der lxd Dokumentation als Hypervisor der lxc's zu prüfen, ob dort interne Optimierungen bezüglich des netzwerkes vorgenommen werden.
+Weiterhin könnte ich den Fokus auf einen Vergleich zuwischen ersten MACSec zwischen UPlink Ports, zwietens zwischen MACSec mit DownlinkPorts, also bis hin zu den Clients, und drittens IPSec-VPN darstellen könnte. Dabei wären Vor- und Nachteile wie Kosten, Performance und Sicherheitsaspekte entscheidend, so dass wie bei einem Lehrbuch die passende Variante für einen bestimmten Verwendungszweck ausgewählt werden kann sinnvoll.
 
 
 \lipsum[1-3]\todo{Refine me}
