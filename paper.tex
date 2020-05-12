@@ -1076,6 +1076,28 @@ crypto map homap 10 ipsec-isakmp
 - diese als Evaluation (evalRightToUse)  über \texttt{license boot level securityk9} für 60 Tage aktivieren und dann \texttt{write} und \texttt{reload}
 -vpn einrichten hat nach Erics config geklappt
 -mtu größe testen mit \texttt{ping -c 1 -s \$((1500-28)) -M do 192.168.112.2} \url{https://www.elektronik-kompendium.de/sites/net/0812211.htm}
+\subsubsection{12.05}
+- im router mit vpn ermittelte MTU ist \texttt{sh crypto ipsec sa | i mtu} 1438, was der 1500 Ethernet MTU entspricht minus 61 Bytes wegen esp-AES-(256 or 192 or 128) \url{https://www.sonicwall.com/support/knowledge-base/set-mtu-in-vpn-environment-in-case-of-throughput-issues/170705131319789/}. Die Abweichung von einem Byte 1500-61(62) =1438 ist vielleicht eine rundungssicherheit
+- mit dem ping test und dem icmp Overhead (20 (IP Header) + 8 (ICMP Header)) wurde ebenfalls der maximale MTU wert von 1438 ermittelt \texttt{ping -c 1 -s \$((1438-28)) -M do 192.168.112.3}
+-ohne vpn erreicht iperf die normale Geschwindigkeit von 97,1 MBits/sec \texttt{iperf -c 192.168.111.2 -m} und gibt aus :  MSS size 1448 bytes (MTU 1500 bytes, ethernet)
+-mit vpn werden von den laut lizenz möglichen 85000kbps nur rund 69 MBits erreicht, was aber wohl geplant ist \url{https://www.cisco.com/c/en/us/support/docs/security-vpn/ipsec-negotiation-ike-protocols/118746-technote-isr-00.html}
+-dieser 69mbits durchsatz kann erhöht werden, wenn eine QOS Policy wie in \Cref{PolicyQOS} genutzt wird, die die Geschwindigkeit auf 84000000 bps begrenzt \url{https://integratingit.wordpress.com/2014/05/14/cisco-isr-g2-router-bad-ipsec-performance/}
+\begin{lstlisting}[
+caption={Policy QOS},
+label=PolicyQOS,
+language=bash]
+policy-map QOS-WAN
+ class class-default
+  shape average 75000000
+!
+interface gigabitethernet0/0
+ descripton "WAN INTERFACE"
+ service-policy output QOS-WAN
+\end{lstlisting}
+- die mtu mit vpn und \texttt{iperf -c 192.168.111.2 -m} ergibt  MSS size 1386 bytes (MTU 1426 bytes, unknown interface), wegen tcp/ip headers 2*20 bytes
+- die MTU ist dabei durch den IPSec Overhead um 73, bzw. wieder 1 byte Abweichung von 1500 MTU verschieden, weil esp-AES-(256 or 192 or 128) esp-SHA-hmac genutzt wurde, siehe sonicwall. Die werte können mit cisco overhead calc noch genauer nachvollzogen werden \url{https://community.cisco.com/t5/switching/ipsec-overhead/td-p/2695916}
+-
+
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
