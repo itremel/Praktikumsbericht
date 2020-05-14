@@ -1112,6 +1112,338 @@ und in tabelle mit mss, mtu und Bandbreite aufgeschrieben und erste Tabelle gema
 	\label{fig:tcpipoverhead}
 \end{figure}
 -iperf misst nur die Transport level Daten wodurch die zu erwartende Bandbreite geringer als die physische Bandbreite ist \url{https://iwl.com/idocs/does-iperf-tell-white-lies}
+\begin{lstlisting}[
+caption={Eric config},
+label=ericconfig,
+language=bash]
+Router 1
+
+Building configuration...
+
+Current configuration : 2448 bytes
+!
+! Last configuration change at 13:43:45 UTC Tue Feb 4 2020
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname testrouter1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$y.75$Dl66rBIMqsACTowyMeABe1
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain name itjustworks.com
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+license udi pid CISCO2911/K9 sn FCZ2043B143
+license boot module c2900 technology-package securityk9
+!
+!
+username User1 privilege 15 password 0 Passw0rd1
+!         
+redundancy
+!
+no crypto ikev2 proposal default
+crypto ikev2 proposal vpn-ikev2-proposal 
+encryption aes-cbc-256
+integrity sha256
+group 14
+!
+no crypto ikev2 policy default
+crypto ikev2 policy vpn-ikev2-policy 
+proposal vpn-ikev2-proposal
+!
+crypto ikev2 keyring vpn-ikev2-keyring
+peer vpn
+address 10.10.10.2
+pre-shared-key test1234test1234test1234test1234
+!
+!
+!
+crypto ikev2 profile vpn-ikev2-profile
+match identity remote address 10.10.10.2 255.255.255.255 
+identity local address 10.10.10.1
+authentication local pre-share
+authentication remote pre-share
+keyring local vpn-ikev2-keyring
+!
+crypto ikev2 dpd 10 2 periodic
+!
+!
+! 
+!
+!
+crypto ipsec transform-set vpn-ipsec-transform-set esp-aes 256 esp-sha256-hmac 
+mode tunnel
+no crypto ipsec transform-set default
+!
+no crypto ipsec profile default
+!
+!
+crypto map vpn 10 ipsec-isakmp 
+set peer 10.10.10.2
+set transform-set vpn-ipsec-transform-set 
+set pfs group14
+set ikev2-profile vpn-ikev2-profile
+match address 100
+!         
+!
+!
+!
+!
+interface Loopback0
+no ip address
+!
+interface Embedded-Service-Engine0/0
+no ip address
+shutdown
+!
+interface GigabitEthernet0/0
+ip address 10.10.10.1 255.255.255.0
+duplex auto
+speed auto
+crypto map vpn
+!
+interface GigabitEthernet0/1
+ip address 192.168.111.1 255.255.255.0
+duplex auto
+speed auto
+!
+interface GigabitEthernet0/2
+no ip address
+shutdown
+duplex auto
+speed auto
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.10.10.2
+ip ssh version 2
+!
+!
+!
+access-list 100 permit ip host 192.168.111.2 host 192.168.112.2
+!
+control-plane
+!
+!
+!
+line con 0
+line aux 0
+line 2
+no activation-character
+no exec
+transport preferred none
+transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+stopbits 1
+line vty 0 4
+login local
+transport input ssh
+!
+scheduler allocate 20000 1000
+!
+end
+----------------------------------------------------------------------------------------------
+Router 2
+
+
+Building configuration...
+
+Current configuration : 2448 bytes
+!
+! Last configuration change at 14:19:32 UTC Tue Feb 4 2020
+!
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname testrouter2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$vzqL$TUfOlKm0Oa553lzjnvuQB/
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+!         
+!         
+!         
+!         
+!         
+!
+!
+!
+!
+ip domain name itjustworks.com
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+license udi pid CISCO2911/K9 sn FCZ2043B142
+license boot module c2900 technology-package securityk9
+!
+!
+username User2 privilege 15 password 0 Passw0rd2
+!
+redundancy
+!
+no crypto ikev2 proposal default
+crypto ikev2 proposal vpn-ikev2-proposal 
+encryption aes-cbc-256
+integrity sha256
+group 14
+!
+no crypto ikev2 policy default
+crypto ikev2 policy vpn-ikev2-policy 
+proposal vpn-ikev2-proposal
+!
+crypto ikev2 keyring vpn-ikev2-keyring
+peer vpn
+address 10.10.10.1
+pre-shared-key test1234test1234test1234test1234
+!
+!
+!
+crypto ikev2 profile vpn-ikev2-profile
+match identity remote address 10.10.10.1 255.255.255.255 
+identity local address 10.10.10.2
+authentication local pre-share
+authentication remote pre-share
+keyring local vpn-ikev2-keyring
+!
+crypto ikev2 dpd 10 2 periodic
+!
+!
+! 
+!
+!
+crypto ipsec transform-set vpn-ipsec-transform-set esp-aes 256 esp-sha256-hmac 
+mode tunnel
+no crypto ipsec transform-set default
+!
+no crypto ipsec profile default
+!
+!
+crypto map vpn 10 ipsec-isakmp 
+set peer 10.10.10.1
+set transform-set vpn-ipsec-transform-set 
+set pfs group14
+set ikev2-profile vpn-ikev2-profile
+match address 100
+!
+!
+!
+!
+!         
+interface Loopback0
+no ip address
+!
+interface Embedded-Service-Engine0/0
+no ip address
+shutdown
+!
+interface GigabitEthernet0/0
+ip address 10.10.10.2 255.255.255.0
+duplex auto
+speed auto
+crypto map vpn
+!
+interface GigabitEthernet0/1
+ip address 192.168.112.1 255.255.255.0
+duplex auto
+speed auto
+!
+interface GigabitEthernet0/2
+no ip address
+shutdown
+duplex auto
+speed auto
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.10.10.1
+ip ssh version 2
+!
+!
+!
+access-list 100 permit ip host 192.168.112.2 host 192.168.111.2
+!
+control-plane
+!
+!
+!
+line con 0
+line aux 0
+line 2
+no activation-character
+no exec
+transport preferred none
+transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+stopbits 1
+line vty 0 4
+login local
+transport input ssh
+!
+scheduler allocate 20000 1000
+!
+end
+
+
+* side to side IPSEC ikev2 VPN
+* 2 Router (10.10.10.1 & 10.10.10.2)
+* 2 Clients (192.168.111.2 & 192.168.112.2)
+
+
+\end{lstlisting}
+\subsubsection{14.05}
+-Layer 2 Ethernet Werte ohne Crypto noch in Router M:/ eingetragen
+-mit wireshark in den ersten beiden frames die MSS bei syn und syn/ack geprüft, syn mss 100 und ack 1460 \texttt{tcp.options.mss\_val} als filter setzen
+-nicht ersichtlich welche MSS oder MTU auf dem netzwerk laufen, weil die mac tabellen flutung nicht die relevanten pakete im tcpdump anzeigt
+-wireshark lief auf dem recieving laptop und nicht auf der usb netzwerkkarte am gefluteten switch
+- nicht klar, ob für die Protokoll Effizient theoretischen Berechnugnen von Ethernet noch zusätzlich 12 oder wie in Wireshark angezeigt 14 Bytes beachtet werden müssen
+-in linux hacken über grub bootloader mit e einstellungen ändern, dann ro auf rw ändern bei quiet splash und ans ende der Zeile \texttt{init=/bin/bash} strg + alt + enter für neustart und - für englische Tastatur Slash und ? für Istgleich
+-\texttt{getent passwd} und dann für nutzer neues passwd einstellen
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
