@@ -1444,9 +1444,48 @@ end
 - nicht klar, ob für die Protokoll Effizienz theoretischen Berechnungen von Ethernet noch zusätzlich 12 oder wie in Wireshark angezeigt 14 Bytes beachtet werden müssen
 -in linux hacken über grub bootloader mit e einstellungen ändern, dann ro auf rw ändern bei quiet splash und ans ende der Zeile \texttt{init=/bin/bash} strg + alt + enter für neustart und \qq{-} für englische Tastatur Slash und \qq{'}(rechts neben ?) für Istgleich
 -\texttt{getent passwd} und dann für nutzer neues passwd einstellen
-\subsection{15.05}
+\subsubsection{15.05}
 - bericht weitergeschrieben
 - vergleich ipsec macsec \url{https://www.cisco.com/c/dam/en/us/td/docs/solutions/CVD/Aug2016/WP-WAN-MACsecDep-Aug2016.pdf}
+\subsection{12. Woche}
+\subsubsection{18.05}
+-Grundkonfiguration für alle 9xxx er Switche vorbereiten
+.\url{https://www.cisco.com/c/en/us/support/docs/switches/catalyst-2900-xl-series-switches/24328-156.html#reset_ios} auf switch \texttt{write erase} und \texttt{reload}
+-für die Grundkonfiguration musste nur ssh Zugang zum Switch eingerichtet werden \url{https://www.cisco.com/c/en/us/support/docs/security-vpn/secure-shell-ssh/4145-ssh.html#settingupaniosrouterasssh} und \url{https://sid-500.com/2017/01/09/ssh-auf-cisco-router-aktivieren/}
+\begin{lstlisting}[
+caption={MGMT TGZ Config},
+label=mgmtconfig,
+language=bash]
+hostname 930024ux-TGZKeller
+
+ip domain name test.hintereszimmer.com
+
+crypto key generate rsa modulus 4096
+
+username isp password 0 test1234
+
+line vty 0 15
+transport input SSH
+login local
+
+int vlan 2199
+ip address 172.16.8.198 255.255.255.0
+
+int Te1/0/1
+switchport access vlan 2199
+
+vlan 2199
+name MGMT-TGZ
+
+enable secret sjkaflhlsdjka
+
+ip ssh version 2
+
+int Te1/1/1 
+switchport access vlan 2199
+\end{lstlisting}
+-für Stylevorlage der Planet IC Präsentationen erst die Schriftarten aus fonts ordner installieren \url{https://wiki.ubuntuusers.de/Schriften/}, doppelklick installieren kopiert in Ordner \path{local/share/fonts/type1}
+-dann neue Präsentation über Dokumentenvorlage erstellen mit der präsentationsvorlage .otp, dort bei \qq{Vorstellung einer Referenz (Seite 1)} sind das Logo und ein Bild was man nach hinten verschieben kann
 \section{Introduction}\label{sec:intro}
 - Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
@@ -1466,6 +1505,10 @@ Von außen ist es ein auffällig in Blautönen gemustertes Gebäude und im Inner
 Das Rechenzentrum als Kernbetrieb ist durch ein Information Security Management System ISO 27001 zertifiziert und über ein Transpondersystem zutrittsbeschränkt. 
 
 Behandelte themen waren GNS3, Jitsi-Server, MACSec mit LACP Bündelung testen, CISCO ASA, DDOS, IPSEC-VPN, BGP Routen Ausfallsicherung,
+
+Meine beruflichen Überlegungen sind noch nicht vollständig abgeschlossen. Das Praktikum habe ich als wertvolle Erfahrung wahrgenommen.
+Am ehesten wurden Netzwerkkenntnisse gebraucht, die aus der Vorlesung \qq{Rechner und Netze} bekannt sein hätten können. Daher kannte ich den Begriff der Paketgrößen als MTU. Aber mir war nicht bewusst, wie stark der Overhead von bestimmten Protokollen, wie z.B. IPSEC beim VPN die Performance bei kleinen MSS Größen dabei verringert. Für mich stach der direkte praktische Umgang mit den Geräten, die für die Kunden angeboten wurden hervor. 
+Eine andere vorlesung deren Kenntnisse genutzt werden konnten, ist \qq{Datenbanken}. Als ich mich mit den Grundlagen von Webservern aufbauen beschäftigt habe, wurden Datenbanken praktisch im Kontext von LAMP-Stacks mit mysql eingesetzt. Dies war aber nur ein sehr geringer Bestandteil des Praktikums den ich die ersten zwei Wochen verfolgt habe.
 
 Die Atmosphäre empfand ich als sehr angenehm, ich hatte Spaß zur Arbeit zu kommen. Es wird auf die Eigenverantwortlichkeit der Mitarbeiter vertraut. Dies zeigt sich in der schnellen Adaption ans Homeoffice zu den Anfängen der Corona Zeit. Wer von sich aus lieber zu Hause bleiben wollte, bekam die Ausrüstung, also Bildschirme Adapter und teilweise Rechner ohne Probleme zu sich geliefert.
 Die Zusammenarbeit war auch über die beruflichen Aufgaben hinaus vorhanden, als die Kantine des TGZ wegen der Pandemie schließen musste und ein kleiner Teil der Belegschaft in der Kaffeeküche gemeinsam Mittag gekocht hat. Auch vorher wurde für die Mitarbeiter kostenlos Obst und Kaffee oder Tee zur Verfügung gestellt.
