@@ -1496,8 +1496,14 @@ switchport access vlan 2199
 -make installiert \url{https://askubuntu.com/questions/192645/make-command-not-found}
 -ssl installiert \url{https://www.tecchannel.de/a/owncloud-9-unter-ubuntu-server-16-04-lts-installieren,3277807,2} und in server.conf eingetragen
 -nats installieren \url{https://docs.nats.io/nats-server/installation}
+\subsubsection{20.05}
+- signaling server bei nextcloud(talk.plant-ic.de) funktioniert mit firefox, aber nicht mit chrome
+- ssh verbindungen auf switche in tgz keller und haus 3 hat geklappt
+- für monitoring ist relevant, ob 10000 ssh Verbindungen mit der schlechteren Protkolleffizienz die leitung voll belgen und damit überlasten
+-bericht zusammenarbeit
+
 \section{Introduction}\label{sec:intro}
-- Tätigkeiten im Unternehmen/beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus, andere Aufgaben vorziehen
+
 - Nachricht von Bundesnetzagentur systemrelevanter betrieb
 -(3) Inhalte der Praktikantentätigkeiten
 - praktisch und produktiv anwenden
@@ -1506,7 +1512,12 @@ switchport access vlan 2199
 - Zeugnis mit Berwertung der erledigten Aufgaben
 - Antrag mit Zeugnis und Originalbericht abgeben
 
+Die kurzen Geschäftswege zu  meinenm Betreuer fand ich sehr angenehm, um auf Verständnisfragen unkompliziert beantworten zu können. Die Atmosphäre wurde durch die Corona entwicklung verändert. Einige Tätigkeiten im Unternehmen beziehungsweise beim Kunden, Ansprechpartner fallen wegen Corona möglicherweise aus. Deswegen ist eine flexible Arbeitsweise erforderlich bei der andere Aufgaben vorgezogen werden können.  Meine Aufgaben wurde davon nicht beeinträchtigt. Allerdings bin ich Kollegen weniger begegnet, wenn diese alle zwei Wochen im HomeOffice waren. Die belegschaft hatte das System sich in zwei verschiedene Gruppen aufzuteilen, die alle zwei Wochen rotiert haben. Die einen waren im Unternehmen, die anderen haben ihre Arbeit von zu Hause aus erledigt. Dadurch sollte nicht das ganze Unternehmen im Krankheitsfall lahmgelegt werden, sondern nur die im Kontakt stehende Hälfte. 
+ERfreulich war für mich, das ich bei allen Aufgaben praktisch produktiv tätig werden durfte und dabei nochmals ein anderes Verständnis für die dahinterliegenden theoretischen Konzept erlangen konnte. Den konkreten Nutzen für Kunden oder die Firma bei getätigten Aufgaben zu sehen hat für mich eine große Motivaton. Alle Mitarbeiter waren hilfsbereit und haben damit ein produktives Arbeiten im Team ermöglicht.
 
+Abschließend stelle ich fest, dass ich einen breitgefächerten Einblick in die Tätigkeiten der Technik ABteilung bei Planet-IC bekommen habe. Das Kennenlernen der Systemadministration von Webservern und die Sicherheitsaspekte bei Netzwerken in Form von MACSec und IPSec zählten zu meinen Hauptaufgaben. Dabei halfen mir Grundlagen aus Rechnernetze, Datenbanken und zu Verschlüsselungsthemen habe ich aus Kryptographie wiedererkannt. Um die Aufgabenstellungen zu lösen, musste ich das grundwissen aus den Bereichen sowie Problemspezifische Recherechen anwenden.
+
+GNS3 wurde von Geschäftspartnern aus Rostock empfohlen und die Nutzung einer virtuellen Umgebung verbessert Betriebsprozesse. Anstatt eines physischen Aufbaus der Netzwerktopologie ist nur noch die Software nötig. Damit lässt sich das Testen von bestimmten Konfigurationen der Geräte vereinfachen und eventuell können Funktionen vorher ausprobiert werden, bevor teure Geräte angeschafft werden müssen. Es ist dann weniger aufwändig und ohne Risiko zu realisieren.
 
 Das remote Blackholing hat für die Firma den Nutzen, dass anstatt den DDOS Schutz beim ISP einzukaufen, diese Ressourcen für einen doppelten Ausbau der bisherigen Bandbreite genutzt werden kann. Die Kosten verhalten sich gleich wenn entweder  1GB/s und DDOS Protection vom Provider gebucht wird, oder der Netzanschluss auf 2GB/s erhöht wird und die DDOS Angriffe selbst auf den Edge Routern ins "Nichts" geleitet werden. Bisher hatten Angriffe z.B. einen Traffic von 500-600Mbit/s verursacht, die von der hinter den Routern geschalteten ASA mit einer Kapazität von 1GB bewältigt werden können. Ein DDOS Angriff der die Leitung an sich überlasten würde, ließe sich nich durch schnellere Router oder eine leistungsstärkere ASA abwehren, da der Flaschenhals eben durch die 1Gb Leitung dargestellt werden würde. Die Webserver wären nicht erreichbar, weil die Außenanbindung  nicht genügend Durchsatz besitzt um den Traffic durchzuleiten, der vom Angreifer produziert wird. Wenn die Leitung auf 2Gbps erhöht wird, reicht der Schutz der 1Gb ASA eventuell nicht mehr aus, weshalb es sinnvoll ist die Abwehr in Form des Blackholings auf die Edge Router, die Kapazitäten bis z.B. 10Gb haben, zu verlegen. Die ASA-Serie bietet zwar keinen DDoS-Schutz, aber kann Angriffe erkennen und sperren.
 
